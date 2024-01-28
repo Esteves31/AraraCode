@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include "codeeditor.h"
+#include "highlighter.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -20,6 +21,7 @@ public:
     ~MainWindow();
 
 private:
+    Highlighter *highlighter;
     Ui::MainWindow *ui;
     CodeEditor *codeEditor;
 };
