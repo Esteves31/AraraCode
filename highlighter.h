@@ -18,7 +18,7 @@ private:
     struct HighlightingRule
     {
         QRegularExpression pattern;
-        QRegularExpression format;
+        QTextCharFormat format;
     };
     QVector<HighlightingRule> highlightingRules;
 
