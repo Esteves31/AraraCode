@@ -26,7 +26,7 @@ private slots:
     void highlightCurrentLine();
     void updateLineNumberArea(const QRect &rect, int dy);
     void newFile();
-    void openFile();
+    void openFile(const QString &path);
     void saveFile();
     void saveFileAs();
 
@@ -44,6 +44,8 @@ private:
     Highlighter *highlighter;
     QTextEdit *editor;
     QString *currentFilePath;
+
+
 };
 
 #endif // CODEEDITOR_H
