@@ -144,7 +144,6 @@ void CodeEditor::setupMenuBar()
 
 void CodeEditor::newFile()
 {
-    qDebug() << "clicou";
     this->clear();
 }
 
@@ -158,7 +157,7 @@ void CodeEditor::openFile(const QString &path)
     if (!fileName.isEmpty()) {
         QFile file(fileName);
         if (file.open(QFile::ReadOnly | QFile::Text))
-            editor->setPlainText(file.readAll());
+            this->setPlainText(file.readAll());
     }
 }
 
