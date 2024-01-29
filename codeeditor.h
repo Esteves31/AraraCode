@@ -2,9 +2,10 @@
 #define CODEEDITOR_H
 
 #include <QPlainTextEdit>
-#include <QFileDialog>
+#include <QMenuBar>
 #include <QMenu>
-#include <QMessageBox>
+#include <QAction>
+#include <QFileDialog>
 
 #include "highlighter.h"
 
@@ -14,7 +15,6 @@ class CodeEditor : public QPlainTextEdit
 
 public:
     CodeEditor(QWidget *parent = nullptr);
-
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
 
@@ -28,7 +28,10 @@ private slots:
 
 private:
     void setupEditor();
+    void setupMenuBar();
 
+    QMenu *fileMenu;
+    QMenuBar *menuBar;
     QWidget *lineNumberArea;
     Highlighter *highlighter;
     QTextEdit *editor;
