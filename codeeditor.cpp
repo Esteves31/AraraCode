@@ -108,7 +108,45 @@ void CodeEditor::setupMenuBar()
     menuBar = new QMenuBar(this);
     fileMenu = menuBar->addMenu("File");
 
+    newAction = new QAction("New file", this);
+    openAction = new QAction("Open file", this);
+    saveAction = new QAction("Save file", this);
+    saveAsAction = new QAction("Save file as", this);
+
+    fileMenu->addAction(newAction);
+    fileMenu->addAction(openAction);
+    fileMenu->addAction(saveAction);
+    fileMenu->addAction(saveAsAction);
+
+    connect(newAction, &QAction::triggered, this, &CodeEditor::newFile);
+    connect(openAction, &QAction::triggered, this, &CodeEditor::openFile);
+    connect(saveAction, &QAction::triggered, this, &CodeEditor::saveFile);
+    connect(saveAsAction, &QAction::triggered, this, &CodeEditor::saveFileAs);
 }
+
+void CodeEditor::newFile()
+{
+
+}
+
+void CodeEditor::openFile()
+{
+
+}
+
+void CodeEditor::saveFile()
+{
+
+}
+
+void CodeEditor::saveFileAs()
+{
+
+}
+
+
+
+
 
 
 
