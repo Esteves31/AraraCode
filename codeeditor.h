@@ -44,8 +44,6 @@ private:
     Highlighter *highlighter;
     QTextEdit *editor;
     QString *currentFilePath;
-
-
 };
 
 #endif // CODEEDITOR_H
