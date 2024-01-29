@@ -4,10 +4,13 @@
 #include "qpainter.h"
 #include "QTextBlock"
 
-CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent)
+CodeEditor::CodeEditor(QWidget *parent)
+    : QPlainTextEdit(parent)
 {
     lineNumberArea = new LineNumberArea(this);
     highlighter = new Highlighter();
+
+    setupMenuBar();
 
     connect(this, &CodeEditor::blockCountChanged, this, &CodeEditor::updateLineNumberAreaWidth);
     connect(this, &CodeEditor::updateRequest, this, &CodeEditor::updateLineNumberArea);
@@ -33,7 +36,7 @@ int CodeEditor::lineNumberAreaWidth()
 
 void CodeEditor::updateLineNumberAreaWidth(int /* newBlockCount */)
 {
-    setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
+    setViewportMargins(lineNumberAreaWidth(), menuBar->height(), 0, 0);
 }
 
 void CodeEditor::updateLineNumberArea(const QRect &rect, int dy)
@@ -53,7 +56,7 @@ void CodeEditor::resizeEvent(QResizeEvent *event)
     QPlainTextEdit::resizeEvent(event);
 
     QRect cr = contentsRect();
-    lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
+    lineNumberArea->setGeometry(QRect(cr.left(), cr.top() + menuBar->height(), lineNumberAreaWidth(), cr.height()));
 }
 
 void CodeEditor::highlightCurrentLine()
@@ -98,6 +101,13 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
         bottom = top + qRound(blockBoundingRect(block).height());
         ++blockNumber;
     }
+}
+
+void CodeEditor::setupMenuBar()
+{
+    menuBar = new QMenuBar(this);
+    fileMenu = menuBar->addMenu("File");
+
 }
 
 
