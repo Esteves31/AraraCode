@@ -10,6 +10,7 @@ CodeEditor::CodeEditor(QWidget *parent)
     lineNumberArea = new LineNumberArea(this);
     highlighter = new Highlighter();
 
+    setupEditor();
     setupMenuBar();
 
     connect(this, &CodeEditor::blockCountChanged, this, &CodeEditor::updateLineNumberAreaWidth);
@@ -103,6 +104,23 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
     }
 }
 
+void CodeEditor::setupEditor()
+{
+    QFont font;
+    font.setFamily("Courier");
+    font.setFixedPitch(true);
+    font.setPointSize(10);
+
+    editor = new QTextEdit;
+    editor->setFont(font);
+
+    highlighter = new Highlighter(editor->document());
+
+    QFile file("codeeditor.h");
+    if (file.open(QFile::ReadOnly | QFile::Text))
+        editor->setPlainText(file.readAll());
+}
+
 void CodeEditor::setupMenuBar()
 {
     menuBar = new QMenuBar(this);
@@ -119,19 +137,29 @@ void CodeEditor::setupMenuBar()
     fileMenu->addAction(saveAsAction);
 
     connect(newAction, &QAction::triggered, this, &CodeEditor::newFile);
-    connect(openAction, &QAction::triggered, this, &CodeEditor::openFile);
+    connect(openAction, &QAction::triggered, [this]() { openFile(QString()); });
     connect(saveAction, &QAction::triggered, this, &CodeEditor::saveFile);
     connect(saveAsAction, &QAction::triggered, this, &CodeEditor::saveFileAs);
 }
 
 void CodeEditor::newFile()
 {
-
+    qDebug() << "clicou";
+    this->clear();
 }
 
-void CodeEditor::openFile()
+void CodeEditor::openFile(const QString &path)
 {
+    QString fileName = path;
 
+    if (fileName.isNull())
+        fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", "C++ Files (*.cpp *.h)");
+
+    if (!fileName.isEmpty()) {
+        QFile file(fileName);
+        if (file.open(QFile::ReadOnly | QFile::Text))
+            editor->setPlainText(file.readAll());
+    }
 }
 
 void CodeEditor::saveFile()
