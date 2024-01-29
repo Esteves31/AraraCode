@@ -25,6 +25,10 @@ private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
     void highlightCurrentLine();
     void updateLineNumberArea(const QRect &rect, int dy);
+    void newFile();
+    void openFile();
+    void saveFile();
+    void saveFileAs();
 
 private:
     void setupEditor();
@@ -32,9 +36,14 @@ private:
 
     QMenu *fileMenu;
     QMenuBar *menuBar;
+    QAction *newAction;
+    QAction *openAction;
+    QAction *saveAction;
+    QAction *saveAsAction;
     QWidget *lineNumberArea;
     Highlighter *highlighter;
     QTextEdit *editor;
+    QString *currentFilePath;
 };
 
 #endif // CODEEDITOR_H
