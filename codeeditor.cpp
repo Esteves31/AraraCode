@@ -19,6 +19,11 @@ CodeEditor::CodeEditor(QWidget *parent)
 
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
+
+    QTextDocument *document = this->document();
+    QString currentText = document->toPlainText();
+
+    highlighter->highlightBlock(currentText);
 }
 
 int CodeEditor::lineNumberAreaWidth()
