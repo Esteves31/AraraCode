@@ -143,7 +143,7 @@ void CodeEditor::setupMenuBar()
 
     connect(newAction, &QAction::triggered, this, &CodeEditor::newFile);
     connect(openAction, &QAction::triggered, [this]() { openFile(QString()); });
-    connect(saveAction, &QAction::triggered, this, &CodeEditor::saveFile);
+    connect(saveAction, &QAction::triggered, [this]() { saveFile(QString()); });
     connect(saveAsAction, &QAction::triggered, this, &CodeEditor::saveFileAs);
 }
 
@@ -155,25 +155,55 @@ void CodeEditor::newFile()
 void CodeEditor::openFile(const QString &path)
 {
     QString fileName = path;
+    currentFilePath = path;
 
     if (fileName.isNull())
         fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", "C++ Files (*.cpp *.h)");
 
     if (!fileName.isEmpty()) {
         QFile file(fileName);
-        if (file.open(QFile::ReadOnly | QFile::Text))
+        if (file.open(QFile::ReadWrite | QFile::Text))
             this->setPlainText(file.readAll());
     }
 }
 
-void CodeEditor::saveFile()
+void CodeEditor::saveFile(const QString &path)
 {
+    QString fileName = path;
 
+    if (fileName.isNull()) {
+        saveFileAs();
+    }
+
+    QFile file(currentFilePath);
+    if (!file.open(QFile::ReadWrite | QFile::Text)) {
+        QMessageBox::warning(this, "ERROR", "Open this file is not possible!");
+    }
+
+
+    QMessageBox::warning(this, "nada", QDir::currentPath());
+
+    QTextStream output(&file);
+    QString text = this->toPlainText();
+    output << text;
+    file.flush();
+    file.close();
 }
 
 void CodeEditor::saveFileAs()
 {
+    QString filePath = QFileDialog::getSaveFileName(nullptr, "Save file", "", "All files (*))");
 
+    if (!filePath.isEmpty()) {
+        QFile file(filePath);
+
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QTextStream out(&file);
+            out << this->toPlainText();
+            file.flush();
+            file.close();
+        }
+    }
 }
 
 
