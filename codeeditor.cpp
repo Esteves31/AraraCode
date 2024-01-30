@@ -8,7 +8,6 @@ CodeEditor::CodeEditor(QWidget *parent)
     : QPlainTextEdit(parent)
 {
     lineNumberArea = new LineNumberArea(this);
-    highlighter = new Highlighter();
 
     setupEditor();
     setupMenuBar();
@@ -23,6 +22,7 @@ CodeEditor::CodeEditor(QWidget *parent)
     QTextDocument *document = this->document();
     QString currentText = document->toPlainText();
 
+    highlighter = new Highlighter(document);
     highlighter->highlightBlock(currentText);
 }
 
