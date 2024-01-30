@@ -24,14 +24,18 @@ public:
 protected:
     void resizeEvent(QResizeEvent *event) override;
 
+signals:
+    void fileSaved(const QString &filePath);
+
 private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
     void highlightCurrentLine();
     void updateLineNumberArea(const QRect &rect, int dy);
     void newFile();
     void openFile(const QString &path);
-    void saveFile(const QString &path);
+    void saveFile();
     void saveFileAs();
+    void updateFilePath(const QString &newFilePath);
 
 private:
     void setupEditor();
@@ -48,7 +52,7 @@ private:
     QTextEdit *editor;
     QDir currentDir;
     QFile currentFile;
-    QString currentFilePath;
+    QString filePath;
 };
 
 #endif // CODEEDITOR_H
