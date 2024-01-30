@@ -6,6 +6,9 @@
 #include <QMenu>
 #include <QAction>
 #include <QFileDialog>
+#include <QDir>
+#include <QTextStream>
+#include <QMessageBox>
 
 #include "highlighter.h"
 
@@ -27,7 +30,7 @@ private slots:
     void updateLineNumberArea(const QRect &rect, int dy);
     void newFile();
     void openFile(const QString &path);
-    void saveFile();
+    void saveFile(const QString &path);
     void saveFileAs();
 
 private:
@@ -43,7 +46,9 @@ private:
     QWidget *lineNumberArea;
     Highlighter *highlighter;
     QTextEdit *editor;
-    QString *currentFilePath;
+    QDir currentDir;
+    QFile currentFile;
+    QString currentFilePath;
 };
 
 #endif // CODEEDITOR_H
