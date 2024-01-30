@@ -61,7 +61,6 @@ void Highlighter::highlightBlock(const QString &text)
             setFormat(match.capturedStart(), match.capturedLength(), rule.format);
         }
     }
-
     setCurrentBlockState(0);
 
     int startIndex = 0;
