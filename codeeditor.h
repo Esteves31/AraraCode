@@ -9,6 +9,8 @@
 #include <QDir>
 #include <QTextStream>
 #include <QMessageBox>
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
 
 #include "highlighter.h"
 
@@ -40,8 +42,11 @@ private slots:
 private:
     void setupEditor();
     void setupMenuBar();
+    void setupSideBar();
 
+    QTreeWidget *sideBar;
     QMenu *fileMenu;
+    QMenu *sideFileMenu;
     QMenuBar *menuBar;
     QAction *newAction;
     QAction *openAction;
