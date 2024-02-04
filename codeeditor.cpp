@@ -11,6 +11,7 @@ CodeEditor::CodeEditor(QWidget *parent)
 
     setupEditor();
     setupMenuBar();
+    setupSideBar();
 
     connect(this, &CodeEditor::blockCountChanged, this, &CodeEditor::updateLineNumberAreaWidth);
     connect(this, &CodeEditor::updateRequest, this, &CodeEditor::updateLineNumberArea);
@@ -146,6 +147,19 @@ void CodeEditor::setupMenuBar()
     connect(openAction, &QAction::triggered, [this]() { openFile(QString()); });
     connect(saveAction, &QAction::triggered, this, &CodeEditor::saveFile);
     connect(saveAsAction, &QAction::triggered, this, &CodeEditor::saveFileAs);
+}
+
+void CodeEditor::setupSideBar()
+{
+    sideBar = new QTreeWidget(this);
+    sideBar->setColumnCount(1);
+
+    currentDir = QDir::currentPath();
+
+    QTreeWidgetItem *root = new QTreeWidgetItem();
+    root->setText(0, currentDir.dirName());
+    sideBar->addTopLevelItem(root);
+
 }
 
 void CodeEditor::newFile()
