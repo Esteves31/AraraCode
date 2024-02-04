@@ -165,11 +165,13 @@ void CodeEditor::openFile(const QString &path)
         if (file.open(QFile::ReadWrite | QFile::Text))
             this->setPlainText(file.readAll());
     }
+
+    emit fileSaved(fileName);
 }
 
 void CodeEditor::saveFile()
 {
-    filePath = QFileDialog::getSaveFileName(nullptr, "Save file", "", "All files (*))");
+    QMessageBox::warning(this, "ERROR", filePath);
 
     if (!filePath.isEmpty()) {
         QFile file(filePath);
@@ -208,6 +210,8 @@ void CodeEditor::saveFileAs()
         else
             QMessageBox::warning(this, "ERROR", "Sorry, save this file is not possible!");
     }
+
+    emit fileSaved(filePath);
 }
 
 
