@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     w.show();*/
 
     CodeEditor codeEditor;
-    codeEditor.resize(640, 512);
+    codeEditor.resize(940, 580);
     codeEditor.show();
 
     return a.exec();
