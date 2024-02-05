@@ -64,7 +64,7 @@ void CodeEditor::resizeEvent(QResizeEvent *event)
     QPlainTextEdit::resizeEvent(event);
 
     QRect cr = contentsRect();
-    lineNumberArea->setGeometry(QRect(cr.left(), cr.top() + menuBar->height(), lineNumberAreaWidth(), cr.height()));
+    lineNumberArea->setGeometry(QRect(sideBar->width(), menuBar->height(), lineNumberAreaWidth(), cr.height()));
 }
 
 void CodeEditor::highlightCurrentLine()
@@ -100,7 +100,7 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
         if (block.isVisible() && bottom >= event->rect().top()) {
             QString number = QString::number(blockNumber + 1);
             painter.setPen(Qt::black);
-            painter.drawText(0, top, lineNumberArea->width(), fontMetrics().height(),
+            painter.drawText(sideBar->width(), top, lineNumberArea->width(), fontMetrics().height(),
                              Qt::AlignRight, number);
         }
 
@@ -155,11 +155,23 @@ void CodeEditor::setupSideBar()
     sideBar->setColumnCount(1);
 
     currentDir = QDir::currentPath();
+    QStringList filesAndDirectories = currentDir.entryList(QDir::NoDotAndDotDot | QDir::AllEntries);
 
     QTreeWidgetItem *root = new QTreeWidgetItem();
     root->setText(0, currentDir.dirName());
     sideBar->addTopLevelItem(root);
 
+    for (QString &entry : filesAndDirectories) {
+        QFileInfo fileInfo(currentDir, entry);
+
+        QTreeWidgetItem *child = new QTreeWidgetItem();
+        child->setText(0, fileInfo.fileName());
+        root->addChild(child);
+    }
+
+    sideBar->setFixedWidth(150);
+    QRect cr = contentsRect();
+    sideBar->setGeometry(QRect(cr.left(), menuBar->height(), lineNumberAreaWidth(), cr.height()));
 }
 
 void CodeEditor::newFile()
