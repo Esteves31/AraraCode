@@ -9,7 +9,6 @@ CodeEditor::CodeEditor(QWidget *parent)
 {
     lineNumberArea = new LineNumberArea(this);
 
-    setupEditor();
     setupMenuBar();
     setupSideBar();
 
@@ -26,6 +25,8 @@ CodeEditor::CodeEditor(QWidget *parent)
 
     highlighter = new Highlighter(document);
     highlighter->highlightBlock(currentText);
+
+    setupEditor();
 }
 
 int CodeEditor::lineNumberAreaWidth()
@@ -44,7 +45,7 @@ int CodeEditor::lineNumberAreaWidth()
 
 void CodeEditor::updateLineNumberAreaWidth(int /* newBlockCount */)
 {
-    setViewportMargins(lineNumberAreaWidth(), menuBar->height(), 0, 0);
+    setViewportMargins(lineNumberAreaWidth() + sideBar->width(), menuBar->height(), 0, 0);
 }
 
 void CodeEditor::updateLineNumberArea(const QRect &rect, int dy)
@@ -120,6 +121,9 @@ void CodeEditor::setupEditor()
 
     editor = new QTextEdit;
     editor->setFont(font);
+
+    QRect cr = contentsRect();
+    editor->setGeometry(QRect(cr.left() + sideBar->width(), menuBar->height(), lineNumberAreaWidth(), cr.height()));
 
     highlighter = new Highlighter(editor->document());
 
