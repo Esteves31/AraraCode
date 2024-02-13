@@ -122,9 +122,6 @@ void CodeEditor::setupEditor()
     editor = new QTextEdit;
     editor->setFont(font);
 
-    QRect cr = contentsRect();
-    editor->setGeometry(QRect(cr.left() + sideBar->width(), menuBar->height(), lineNumberAreaWidth(), cr.height()));
-
     highlighter = new Highlighter(editor->document());
 
     QFile file("codeeditor.h");
