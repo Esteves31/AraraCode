@@ -8,17 +8,32 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     this->resize(760, 440);
-
-    int x1 = (1366 - this->width()) / 2;
-    int y1 = (768 - this->height()) / 2;
-
-    this->move(x1, y1);
     this->setWindowTitle("Arara Code");
 
     int y = (this->height() - ui->textBrowser->height()) / 2;
     int x = (this->width() - ui->textBrowser->width()) / 2;
 
     ui->textBrowser->move(x, y);
+
+    connect(newAction,  &QShortcut::activated, this, &MainWindow::handleNewShortcut);
+    connect(openAction, &QShortcut::activated, this, &MainWindow::handleOpenShortcut);
+    connect(exitAction, &QShortcut::activated, this, &MainWindow::handleExitShortcut);
+}
+
+void MainWindow::handleNewShortcut()
+{
+    this->close();
+}
+
+void MainWindow::handleOpenShortcut()
+{
+    codeEditor->resize(940, 580);
+    codeEditor->show();
+}
+
+void MainWindow::handleExitShortcut()
+{
+    this->close();
 }
 
 MainWindow::~MainWindow()
