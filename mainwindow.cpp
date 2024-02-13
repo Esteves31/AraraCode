@@ -6,7 +6,19 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->menuBar->setStyleSheet("QMenuBar {color: white; }");
+
+    this->resize(760, 440);
+
+    int x1 = (1366 - this->width()) / 2;
+    int y1 = (768 - this->height()) / 2;
+
+    this->move(x1, y1);
+    this->setWindowTitle("Arara Code");
+
+    int y = (this->height() - ui->textBrowser->height()) / 2;
+    int x = (this->width() - ui->textBrowser->width()) / 2;
+
+    ui->textBrowser->move(x, y);
 }
 
 MainWindow::~MainWindow()
