@@ -27,7 +27,9 @@ void MainWindow::handleNewShortcut()
 
 void MainWindow::handleOpenShortcut()
 {
-
+    codeEditor = new CodeEditor();
+    codeEditor->resize(940, 580);
+    codeEditor->show();
 }
 
 void MainWindow::handleExitShortcut()
